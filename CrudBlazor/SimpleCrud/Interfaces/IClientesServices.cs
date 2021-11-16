@@ -11,5 +11,7 @@ namespace SimpleCrud.Interfaces
         Task<bool> GuardarCliente(Cliente cliente);
 
         Task<IEnumerable<Cliente>> DameTodosLosClientes();
+
+        Task<Cliente> DameDatosClientes(int id);
     }
 }

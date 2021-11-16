@@ -25,12 +25,17 @@ namespace SimpleCrud.Servicios
             if (cliente.Id == 0)
                 return clientesRepositorio.GuardarCliente(cliente);
             else
-                return null;
+                return clientesRepositorio.ModificarCliente(cliente);
         }
 
         public Task<IEnumerable<Cliente>> DameTodosLosClientes()
         {
             return clientesRepositorio.DameTodosLosClientes();
+        }
+
+        public Task<Cliente> DameDatosClientes(int id)
+        {
+            return clientesRepositorio.DameDatosClientes(id);
         }
     }
 }

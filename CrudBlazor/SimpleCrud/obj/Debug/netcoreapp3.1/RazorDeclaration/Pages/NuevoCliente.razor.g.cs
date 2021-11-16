@@ -76,20 +76,21 @@ using SimpleCrud.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\NuevoCliente.razor"
+#line 3 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\NuevoCliente.razor"
 using Data;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\NuevoCliente.razor"
+#line 4 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\NuevoCliente.razor"
 using Interfaces;
 
 #line default
 #line hidden
 #nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/NuevoCliente")]
+    [Microsoft.AspNetCore.Components.RouteAttribute("/NuevoCliente/{id:int}")]
     public partial class NuevoCliente : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -98,27 +99,40 @@ using Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 55 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\NuevoCliente.razor"
+#line 58 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\NuevoCliente.razor"
        
+    [Parameter]
+    public int id { get; set; }
+
     Cliente cliente = new Cliente();
 
     protected async Task Guardar()
     {
         await ClientesServicio.GuardarCliente(cliente);
+        navigationManager.NavigateTo("/ListaClientes");
     }
     protected void Cancelar()
     {
-
+        navigationManager.NavigateTo("/ListaClientes");
     }
     private void HandleValidSubmit()
     {
         Console.WriteLine("OnValidSubmit");
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        if (id > 0)
+        {
+            cliente = await ClientesServicio.DameDatosClientes(id);
+        }
+    }
+
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IClientesServices ClientesServicio { get; set; }
     }
 }

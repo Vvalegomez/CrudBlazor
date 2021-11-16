@@ -93,5 +93,75 @@ namespace SimpleCrud.Repositorio
             }
             return lista;
         }
+
+        public async Task<bool> ModificarCliente(Cliente cliente)
+        {
+            Boolean clienteModificado = false;
+            SqlConnection sqlConexion = conexion();
+            SqlCommand cmd = null;
+
+            try
+            {
+                sqlConexion.Open();
+                cmd = sqlConexion.CreateCommand();
+                cmd.CommandText = "dbo.UsuariosAlta";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 100).Value = cliente.Nombre;
+                cmd.Parameters.Add("@Email", SqlDbType.VarChar, 100).Value = cliente.Email;
+                cmd.Parameters.Add("@Telefono", SqlDbType.VarChar, 50).Value = cliente.Telefono;
+                cmd.Parameters.Add("@id", SqlDbType.Int).Value = cliente.Id;
+
+                if (cliente.Nombre != null && cliente.Email != null && cliente.Telefono != null)
+                    await cmd.ExecuteNonQueryAsync();
+                clienteModificado = true;
+            }
+            catch (SqlException ex)
+            {
+
+                throw new Exception("Error al guardar " + ex.Message);
+            }
+            finally
+            {
+                cmd.Dispose();
+                sqlConexion.Close();
+                sqlConexion.Dispose();
+            }
+            return clienteModificado;
+        }
+
+        public async Task<Cliente> DameDatosClientes(int id)
+        {
+            Cliente c = new Cliente();
+            SqlConnection sqlConexion = conexion();
+            SqlCommand cmd = null;
+            try
+            {
+                sqlConexion.Open();
+                cmd.CommandText = "dbo.UsuariosLista";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+                SqlDataReader reader = await cmd.ExecuteReaderAsync();
+                if (reader.Read())
+                {
+                    c.Id = Convert.ToInt32(reader["id"]);
+                    c.Nombre = reader["Nombre"].ToString();
+                    c.Email = reader["Email"].ToString();
+                    c.Telefono = reader["Telefono"].ToString();
+                }
+                reader.Close();
+            }
+            catch (SqlException ex)
+            {
+
+                throw new Exception("Error al guardar " + ex.Message);
+            }
+            finally
+            {
+                cmd.Dispose();
+                sqlConexion.Close();
+                sqlConexion.Dispose();
+            }
+            return c;
+        }
     }
 }

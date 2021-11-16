@@ -1,7 +1,9 @@
 ﻿@page "/NuevoCliente"
+@page "/NuevoCliente/{id:int}"
 @using Data
 @using Interfaces
 @inject IClientesServices ClientesServicio
+@inject NavigationManager navigationManager;
 
 <h3>NuevoCliente</h3>
 
@@ -25,6 +27,7 @@
     </div>
     <div class="row content">
         <div class="col-md-1"><input type="submit" class="btn btn-primary" value="Guardar" @onclick="Guardar"/></div>
+        <br />
         <div class="col-md-2">
             <input type="button" value="Cancelar" class="btn btn-danger" @onclick="Cancelar"/>
         </div>
@@ -53,19 +56,31 @@
 </EditForm>
 
 @code {
+    [Parameter]
+    public int id { get; set; }
+
     Cliente cliente = new Cliente();
 
     protected async Task Guardar()
     {
         await ClientesServicio.GuardarCliente(cliente);
+        navigationManager.NavigateTo("/ListaClientes");
     }
     protected void Cancelar()
     {
-
+        navigationManager.NavigateTo("/ListaClientes");
     }
     private void HandleValidSubmit()
     {
         Console.WriteLine("OnValidSubmit");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (id > 0)
+        {
+            cliente = await ClientesServicio.DameDatosClientes(id);
+        }
     }
 
 }

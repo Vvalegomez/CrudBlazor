@@ -105,7 +105,7 @@ using Repositorio;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 36 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\ListaClientes.razor"
+#line 39 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\ListaClientes.razor"
        
 
     private IEnumerable<Cliente> clientes;
