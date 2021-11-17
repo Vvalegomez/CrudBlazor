@@ -2,13 +2,16 @@
 @using Data
 @using Interfaces
 @using Repositorio
+@using System.Data
 @inject IClientesServices ClientesServicio
+@inject IJSRuntime JsRuntime;
+
 
 <h3>ListaClientes</h3>
 
 @if (clientes == null)
 {
-        <p> <em>Cargando..</em></p>
+    <p> <em>Cargando..</em></p>
 }
 else
 {
@@ -22,16 +25,19 @@ else
         </thead>
         <tbody>
             @foreach (Cliente c in clientes)
-                {
-            <tr>
-                <td>@c.Nombre</td>
-                <td>@c.Email</td>
-                <td>@c.Telefono</td>
-                <td>
-                    <a href="/NuevoCliente/@c.Id" class="btn btn-primary m-1">Editar</a>
-                </td>
-            </tr>
-                }
+            {
+                <tr>
+                    <td>@c.Nombre</td>
+                    <td>@c.Email</td>
+                    <td>@c.Telefono</td>
+                    <td>
+                        <a href="/NuevoCliente/@c.id" class="btn btn-primary m-1">Editar</a>
+                    </td>
+                    <td>
+                        <input type="submit" class="btn btn-danger" value="Borrar" @onclick="(() => Borrar(c.id))"/>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 }
@@ -50,6 +56,17 @@ else
         {
 
             throw;
+        }
+    }
+
+    protected async Task Borrar(int id)
+    {
+        bool confirmar = await JsRuntime.InvokeAsync<bool>("confirm", "seguro?");
+        if (confirmar)
+        {
+            await ClientesServicio.BorrarCliente(id);
+
+            clientes = await ClientesServicio.DameTodosLosClientes();
         }
     }
 }

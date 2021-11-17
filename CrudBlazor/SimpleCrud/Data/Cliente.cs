@@ -8,7 +8,7 @@ namespace SimpleCrud.Data
 {
     public class Cliente
     {
-        public int Id { get; set; }
+        public int id { get; set; }
         [Required(ErrorMessage = "* Obligatorio")]
         public string Nombre { get; set; }
         [Required(ErrorMessage = "* Obligatorio")]

@@ -89,6 +89,13 @@ using Interfaces;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 5 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\NuevoCliente.razor"
+using System.Data;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/NuevoCliente")]
     [Microsoft.AspNetCore.Components.RouteAttribute("/NuevoCliente/{id:int}")]
     public partial class NuevoCliente : Microsoft.AspNetCore.Components.ComponentBase
@@ -99,7 +106,7 @@ using Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 58 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\NuevoCliente.razor"
+#line 59 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\NuevoCliente.razor"
        
     [Parameter]
     public int id { get; set; }
@@ -124,7 +131,7 @@ using Interfaces;
     {
         if (id > 0)
         {
-            cliente = await ClientesServicio.DameDatosClientes(id);
+            cliente = await ClientesServicio.DameDatosCliente(id);
         }
     }
 

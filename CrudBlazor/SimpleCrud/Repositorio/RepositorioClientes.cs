@@ -72,7 +72,7 @@ namespace SimpleCrud.Repositorio
                 while (reader.Read())
                 {
                     Cliente c = new Cliente();
-                    c.Id = Convert.ToInt32(reader["Id"]);
+                    c.id = Convert.ToInt32(reader["Id"]);
                     c.Nombre = reader["Nombre"].ToString();
                     c.Email = reader["Email"].ToString();
                     c.Telefono = reader["Telefono"].ToString();
@@ -109,7 +109,7 @@ namespace SimpleCrud.Repositorio
                 cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 100).Value = cliente.Nombre;
                 cmd.Parameters.Add("@Email", SqlDbType.VarChar, 100).Value = cliente.Email;
                 cmd.Parameters.Add("@Telefono", SqlDbType.VarChar, 50).Value = cliente.Telefono;
-                cmd.Parameters.Add("@id", SqlDbType.Int).Value = cliente.Id;
+                cmd.Parameters.Add("@id", SqlDbType.Int).Value = cliente.id;
 
                 if (cliente.Nombre != null && cliente.Email != null && cliente.Telefono != null)
                     await cmd.ExecuteNonQueryAsync();
@@ -129,7 +129,7 @@ namespace SimpleCrud.Repositorio
             return clienteModificado;
         }
 
-        public async Task<Cliente> DameDatosClientes(int id)
+        public async Task<Cliente> DameDatosCliente(int id)
         {
             Cliente c = new Cliente();
             SqlConnection sqlConexion = conexion();
@@ -143,7 +143,7 @@ namespace SimpleCrud.Repositorio
                 SqlDataReader reader = await cmd.ExecuteReaderAsync();
                 if (reader.Read())
                 {
-                    c.Id = Convert.ToInt32(reader["id"]);
+                    c.id = Convert.ToInt32(reader["id"]);
                     c.Nombre = reader["Nombre"].ToString();
                     c.Email = reader["Email"].ToString();
                     c.Telefono = reader["Telefono"].ToString();
@@ -162,6 +162,38 @@ namespace SimpleCrud.Repositorio
                 sqlConexion.Dispose();
             }
             return c;
+        }
+
+        public async Task<bool> BorrarCliente(int id)
+        {
+            Boolean clienteBorrado = false;
+            SqlConnection sqlConexion = conexion();
+            SqlCommand cmd = null;
+            try
+            {
+                sqlConexion.Open();
+                cmd = sqlConexion.CreateCommand();
+                cmd.CommandText = "dbo.UsuariosBaja";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+
+                if(id>0)
+                    await cmd.ExecuteNonQueryAsync();
+
+                clienteBorrado = true;
+                
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("error: " + ex.Message);
+            }
+            finally
+            {
+                cmd.Dispose();
+                sqlConexion.Close();
+                sqlConexion.Dispose();
+            }
+            return clienteBorrado;
         }
     }
 }

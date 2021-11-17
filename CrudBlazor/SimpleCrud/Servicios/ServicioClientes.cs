@@ -22,7 +22,7 @@ namespace SimpleCrud.Servicios
 
         public Task<bool>GuardarCliente(Cliente cliente)
         {
-            if (cliente.Id == 0)
+            if (cliente.id == 0)
                 return clientesRepositorio.GuardarCliente(cliente);
             else
                 return clientesRepositorio.ModificarCliente(cliente);
@@ -33,9 +33,19 @@ namespace SimpleCrud.Servicios
             return clientesRepositorio.DameTodosLosClientes();
         }
 
-        public Task<Cliente> DameDatosClientes(int id)
+        public Task<Cliente> DameDatosCliente(int id)
         {
-            return clientesRepositorio.DameDatosClientes(id);
+            return clientesRepositorio.DameDatosCliente(id);
         }
+
+        public Task<bool> BorrarCliente (int id)
+        {
+            return clientesRepositorio.BorrarCliente(id);
+        }
+
+        //public Task<bool> ModificarCliente(Cliente cliente)
+        //{
+        //    return clientesRepositorio.ModificarCliente(cliente);
+        //}
     }
 }

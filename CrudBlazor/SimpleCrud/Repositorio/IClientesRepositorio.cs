@@ -12,8 +12,10 @@ namespace SimpleCrud.Repositorio
 
         Task<IEnumerable<Cliente>> DameTodosLosClientes();
 
-        Task<Cliente> DameDatosClientes(int id);
+        Task<Cliente> DameDatosCliente(int id);
 
         Task<bool> ModificarCliente(Cliente cliente);
+
+        Task<bool> BorrarCliente(int id);
     }
 }

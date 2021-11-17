@@ -96,6 +96,13 @@ using Repositorio;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 5 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\ListaClientes.razor"
+using System.Data;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/ListaClientes")]
     public partial class ListaClientes : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -105,7 +112,7 @@ using Repositorio;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 39 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\ListaClientes.razor"
+#line 45 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\ListaClientes.razor"
        
 
     private IEnumerable<Cliente> clientes;
@@ -123,9 +130,21 @@ using Repositorio;
         }
     }
 
+    protected async Task Borrar(int id)
+    {
+        bool confirmar = await JsRuntime.InvokeAsync<bool>("confirm", "seguro?");
+        if (confirmar)
+        {
+            await ClientesServicio.BorrarCliente(id);
+
+            clientes = await ClientesServicio.DameTodosLosClientes();
+        }
+    }
+
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JsRuntime { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IClientesServices ClientesServicio { get; set; }
     }
 }
