@@ -43,6 +43,11 @@ namespace SimpleCrud.Servicios
             return clientesRepositorio.BorrarCliente(id);
         }
 
+        public Task<IEnumerable<Cliente>> DameTodosLosClientes(string busqueda)
+        {
+            return clientesRepositorio.DameTodosLosClientes(busqueda);
+        }
+
         //public Task<bool> ModificarCliente(Cliente cliente)
         //{
         //    return clientesRepositorio.ModificarCliente(cliente);

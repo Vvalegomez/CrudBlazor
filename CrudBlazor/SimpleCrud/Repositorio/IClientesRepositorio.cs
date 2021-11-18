@@ -17,5 +17,7 @@ namespace SimpleCrud.Repositorio
         Task<bool> ModificarCliente(Cliente cliente);
 
         Task<bool> BorrarCliente(int id);
+
+        Task<IEnumerable<Cliente>> DameTodosLosClientes(String busqueda);
     }
 }

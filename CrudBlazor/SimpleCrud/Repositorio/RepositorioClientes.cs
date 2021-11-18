@@ -195,5 +195,44 @@ namespace SimpleCrud.Repositorio
             }
             return clienteBorrado;
         }
+
+        public async Task<IEnumerable<Cliente>> DameTodosLosClientes(string busqueda)
+        {
+            List<Cliente> lista = new List<Cliente>();
+            SqlConnection sqlConexion = conexion();
+            SqlCommand cmd = null;
+            try
+            {
+                sqlConexion.Open();
+                cmd = sqlConexion.CreateCommand();
+                cmd.CommandText = "dbo.UsuariosLista";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@busqueda", SqlDbType.VarChar, 100).Value = busqueda;
+                SqlDataReader reader = await cmd.ExecuteReaderAsync();
+                while (reader.Read())
+                {
+                    Cliente c = new Cliente();
+                    c.id = Convert.ToInt32(reader["Id"]);
+                    c.Nombre = reader["Nombre"].ToString();
+                    c.Email = reader["Email"].ToString();
+                    c.Telefono = reader["Telefono"].ToString();
+                    lista.Add(c);
+                }
+                reader.Close();
+            }
+            catch (SqlException ex)
+            {
+
+                throw new Exception("error " + ex.Message);
+            }
+            finally
+            {
+                cmd.Dispose();
+                sqlConexion.Close();
+                sqlConexion.Dispose();
+            }
+            return lista;
+        }
+
     }
 }

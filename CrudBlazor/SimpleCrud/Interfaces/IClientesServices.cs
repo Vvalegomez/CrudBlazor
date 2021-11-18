@@ -16,6 +16,7 @@ namespace SimpleCrud.Interfaces
 
         Task<bool> BorrarCliente(int id);
 
+        Task<IEnumerable<Cliente>> DameTodosLosClientes(string busqueda);
         //Task<bool> ModificarCliente(Cliente cliente);
     }
 }

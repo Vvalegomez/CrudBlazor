@@ -112,10 +112,12 @@ using System.Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 45 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\ListaClientes.razor"
+#line 53 "C:\Users\Joaquin Auce\source\repos\CrudBlazor\SimpleCrud\Pages\ListaClientes.razor"
        
 
     private IEnumerable<Cliente> clientes;
+
+    private string cadenaBusqueda { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -140,6 +142,12 @@ using System.Data;
             clientes = await ClientesServicio.DameTodosLosClientes();
         }
     }
+
+    protected async Task Buscar()
+    {
+        clientes = await ClientesServicio.DameTodosLosClientes(cadenaBusqueda.Trim());
+    }
+
 
 #line default
 #line hidden
